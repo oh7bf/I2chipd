@@ -1,0 +1,109 @@
+#!/bin/sh
+#
+# Installation script for Rasbian Wheezy. The installation script can be
+# run after compiling the binaries.
+#
+# Installation:
+#
+# a) cd src; make
+# 
+# b) cd doc; ./mki2chipd
+# 
+# c) sudo ./install (this script)
+#
+# d) sudo raspi-config (to enable I2C) 
+#
+# e) sudo service i2chipd start
+# 
+# f) tail -f /var/log/daemon.log
+#
+# g) sudo update-rc.d i2chipd defaults (optional)
+# 
+#
+# The directories used and files created by this script:
+#
+# /etc/init.d/i2chipd                - init script
+# /etc/i2chipd_config                - configuration file
+# /usr/share/man/man1/i2chipd.1      - manual page
+# /usr/sbin/i2chipd                  - pressure reading daemon
+# /var/lib/i2chipd/                  - live pressure data
+#
+# Fri Jun 12 23:33:59 CEST 2015
+# Edit: 
+# 
+# Jaakko Koivuniemi
+#
+
+
+# source directory for 'I2chipd'
+SOURCEDIR=${PWD}
+SOURCEBIN=${SOURCEDIR}/src
+SOURCEMAN=${SOURCEDIR}/doc
+
+# binary executables 
+BINDIR=/usr/sbin
+
+# manual pages
+MANDIR=/usr/share/man/man1
+
+# init script
+INITDIR=/etc/init.d
+
+# for pipicpowerd_conf configuration file
+CONFDIR=/etc
+
+# live data 
+VARLIBDIR=/var/lib
+
+# binary executables
+BINS='i2chipd'
+
+if [ -d $SOURCEBIN ]; then
+  echo "Copy binary executables to ${BINDIR}"
+  for item in $BINS;
+  do
+    if [ -r ${SOURCEBIN}/${item} ]; then
+       echo "... ${item}"
+       /usr/bin/install -C -m 755 ${SOURCEBIN}/${item} ${BINDIR}
+    fi 
+  done
+else
+  echo "Source directory ${SOURCEBIN} does not exist"
+fi
+
+if [ -d $SOURCEMAN ]; then
+  echo "Copy manual pages to ${MANDIR}"
+  for item in $BINS;
+  do
+    if [ -r ${SOURCEMAN}/$item.1 ]; then
+       echo "... ${item}.1"
+       /usr/bin/install -C -m 664 ${SOURCEMAN}/${item}.1 ${MANDIR}
+    fi 
+  done
+else
+  echo "Source directory ${SOURCEMAN} does not exist"
+fi
+
+if [ ! -x ${INITDIR}/i2chipd ]; then
+  echo "Write init script ${INITDIR}/i2chipd"
+  /usr/bin/install -C -m 755 ${SOURCEDIR}/i2chipd.sh ${INITDIR} 
+  /bin/mv ${INITDIR}/i2chipd.sh ${INITDIR}/i2chipd 
+else
+  echo "Init script ${INITDIR}/i2chipd already exists"
+fi
+
+if [ ! -r ${CONFDIR}/i2chipd_config ]; then
+  echo "Write default configuration file ${CONFDIR}/i2chipd_config"
+  /usr/bin/install -C -m 664 ${SOURCEDIR}/i2chipd_config ${CONFDIR} 
+else
+  echo "Configuration file ${CONFDIR}/i2chipd_config already exists" 
+fi
+
+if [ -d /var/lib/i2chipd ]; then
+  echo "Directory /var/lib/i2chipd already exists"
+else
+  echo "Create directory /var/lib/i2chipd"
+  /bin/mkdir -m 775 /var/lib/i2chipd
+fi
+
+echo "Run 'update-rc.d i2chipd defaults' to automatically start at boot time"

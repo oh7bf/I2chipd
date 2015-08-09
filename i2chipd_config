@@ -1,0 +1,71 @@
+#
+# Example configuration file for i2chipd 
+# Tue Jun 23 20:19:44 CEST 2015
+# Edit: 
+#
+# Jaakko Koivuniemi
+
+# log level, see syslog(3) 
+# 2=critical condition, 3=error condition, 4=warning condition, 
+# 5=significant condition, 6=information, 7=debugging
+LOGLEVEL 5
+
+# store data to local SQLite database
+# DBSQLITE /tmp/test.db
+
+# store data to MySQL database
+# DBMYSQLHOST localhost
+# DBMYSQLUSER user
+# DBMYSQLPSWD password
+# DBMYSQLDB   database
+# DBMYSQLPORT 3306
+
+# reading interval for BMP180 [s]
+#BMP180_INT 300
+
+# reading interval for HTU21D
+#HTU21D_INT 300
+# HTU21D soft reset at start
+#HTU21D_SOFTRESET 0
+
+# reading interval for MAG3110
+#MAG3110_INT 300
+# initial value for CTRL_REG1
+#MAG3110_CTRL_REG1 0xF8
+# initial value for CTRL_REG2
+#MAG3110_CTRL_REG2 0x80
+# Bx offset -10000 - +10000
+#MAG3110_OFF_X 0
+# By offset -10000 - +10000
+#MAG3110_OFF_Y 0
+# Bz offset -10000 - +10000
+#MAG3110_OFF_Z 0
+# delay after trigger before reading [s]
+#MAG3110_TDELAY 15
+# temperature reading interval [s]
+#MAG3110_TEMPINT 300
+# temperature offset [C]
+#MAG3110_TOFFSET -27
+
+# pressure reading interval for MPL3115A2 [s]
+#MPL3115A2_INT 300
+# altitude reading interval for MPL3115A2 [s]
+#MPL3115A2_ALT_INT 300
+# altitude reference pressure [0-65535], default 50663=101,326 Pa
+#MPL3115A2_REFPRES 50663
+
+
+# temperature reading interval for first TMP102 at 0x48 [s]
+#TMP102_1_INT 300
+
+# temperature reading interval for second TMP102 at 0x49 [s]
+#TMP102_2_INT 300
+
+# temperature reading interval for third TMP102 at 0x4A [s]
+#TMP102_3_INT 300
+
+# temperature reading interval for fourth TMP102 at 0x4B [s]
+#TMP102_4_INT 300
+
+
+

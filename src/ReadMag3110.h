@@ -1,0 +1,4 @@
+#ifndef READMAG3110_H_INCLUDED
+#define READMAG3110_H_INCLUDED
+void ReadMag3110();
+#endif

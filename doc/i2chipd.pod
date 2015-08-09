@@ -1,0 +1,74 @@
+=head1 NAME
+
+i2chipd - read values from i2c chips and store data to database
+
+=head1 SYNOPSIS
+
+B<i2chipd> 
+
+=head1 DESCRIPTION
+
+The B<i2chipd> is used to read different data from i2c chips on Raspberry 
+Pi. The data is converted to physical quantity and written to a file in 
+directory /var/lib/i2chipd/. The measured values can be optionally inserted 
+to a SQLite3 or MySQL database table. The reading interval of each chip is
+defined in file /etc/i2chipd_config together with other measurement 
+parameters.
+
+The daemon is started with command 
+
+B<service> I<i2chipd> I<start>
+
+and can be stopped any time with
+
+B<service> I<i2chipd> I<stop>
+
+The operation of the daemon can be checked from the log file.
+
+=head1 FILES
+
+I</etc/i2chipd_config>             Configuration file. 
+
+I</etc/init.d/i2chipd>             Init script.
+
+I</usr/sbin/i2chipd>               Daemon code.
+
+I</var/lib/i2chipd/bmp180_pressure> BMP180 pressure.
+
+I</var/lib/i2chipd/bmp180_temperature> BMP180 temperature.
+
+I</var/lib/i2chipd/htu21d_humidity> HTU21D humidity.
+
+I</var/lib/i2chipd/htu21d_temperature> HTU21D temperature.
+
+I</var/lib/i2chipd/mag3110_Bx>      MAG3110 magnetic field Bx.
+
+I</var/lib/i2chipd/mag3110_By>      MAG3110 magnetic field By.
+
+I</var/lib/i2chipd/mag3110_Bz>      MAG3110 magnetic field Bz.
+
+I</var/lib/i2chipd/mag3110_temperature>  MAG3110 temperature.
+
+I</var/lib/i2chipd/mpl3115a2_altitude>   MPL3115A2 altitude.
+
+I</var/lib/i2chipd/mpl3115a2_pressure>   MPL3115A2 pressure.
+
+I</var/lib/i2chipd/mpl3115a2_temperature> MPL3115A2 temperature.
+
+I</var/lib/i2chipd/tmp102_temperature>  TMP102 temperature.
+
+I</var/run/i2chipd.pid>            PID file.
+
+=head1 WARNING
+
+No check is done where the query data is written. Could make some hardware 
+unusable.
+
+=head1 AUTHORS
+
+Jaakko Koivuniemi 
+
+=head1 SEE ALSO
+
+i2cdetect(8), i2cset(8), i2cget(8), sqlite3(1), mysql(1)
+
