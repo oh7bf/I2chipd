@@ -20,7 +20,7 @@
  ****************************************************************************
  *
  * Sat Jul  4 11:36:06 CEST 2015
- * Edit: Sun Aug  9 14:40:56 CEST 2015
+ * Edit: Fri Aug 14 20:26:14 CEST 2015
  *
  * Jaakko Koivuniemi
  **/
@@ -52,7 +52,7 @@
 #include "ReadMySQLTime.h"
 #include "ReadSQLiteTime.h"
 
-const int version=20150809; // program version
+const int version=20150814; // program version
 const char *i2cdev="/dev/i2c-1";
 int i2cerr=0; // error flag for i2c communication 
 const char *confile="/etc/i2chipd_config";

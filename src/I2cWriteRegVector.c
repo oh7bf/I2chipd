@@ -7,7 +7,8 @@ int I2cWriteRegVector(int address, unsigned char reg, short *xval, short *yval, 
 {
   int fd, rd;
   int cnt = 0;
-  unsigned char buf[10];
+  unsigned char buf[ 10 ];
+  char message[ 200 ] = "";
 
   if( ( fd = open(i2cdev, O_RDWR) ) < 0) 
   {
@@ -45,6 +46,9 @@ int I2cWriteRegVector(int address, unsigned char reg, short *xval, short *yval, 
     close( fd );
     return -3;
   }
+
+  sprintf(message, "0x%02X write register 0x%02X 0x%02X%02X%02X%02X%02X%02X", address, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6]);
+  syslog(LOG_DEBUG, "%s", message);
 
   if( (write(fd, buf, 7)) != 7) 
   {

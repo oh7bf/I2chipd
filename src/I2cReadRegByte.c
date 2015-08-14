@@ -8,7 +8,8 @@ int I2cReadRegByte(int address, unsigned char reg)
   int value = 0;
   int fd, rd;
   int cnt = 0;
-  unsigned char buf[10];
+  unsigned char buf[ 10 ];
+  char message[ 200 ] = "";
 
   if( (fd = open(i2cdev, O_RDWR) ) < 0 ) 
   {
@@ -40,6 +41,10 @@ int I2cReadRegByte(int address, unsigned char reg)
     close( fd );
     return -3;
   }
+
+  sprintf(message, "%02X read register %02X", address, reg);
+  syslog(LOG_DEBUG, "%s", message);
+
   if((write(fd, buf, 1)) != 1) 
   {
     syslog(LOG_ERR|LOG_DAEMON, "Error writing to i2c slave");
@@ -59,6 +64,9 @@ int I2cReadRegByte(int address, unsigned char reg)
     else 
     {
       value = (int)buf[0]; 
+
+      sprintf(message, "value %02X", buf[0]);
+      syslog(LOG_DEBUG, "%s", message);
     }
   }
 

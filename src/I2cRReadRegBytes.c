@@ -7,7 +7,9 @@ int I2cRReadRegBytes(int address, unsigned char reg, unsigned char *buffer, int 
 {
   int fd, rd;
   int cnt = 0, result = 0;
-  char message[200]="";
+  int i = 0;
+  char message[500]="";
+  char hex[2]=""; 
 
 // from Lauri Pirttiaho
   struct i2c_msg rdwr_msgs[2] =
@@ -66,6 +68,8 @@ int I2cRReadRegBytes(int address, unsigned char reg, unsigned char *buffer, int 
       }
       else
       {
+        sprintf(message, "0x%02X repeated start read register 0x%02X", address, reg);
+        syslog(LOG_DEBUG, "%s", message);
         result = ioctl(fd, I2C_RDWR, &rdwr_data);
         if( result < 0 )
         {
@@ -77,7 +81,12 @@ int I2cRReadRegBytes(int address, unsigned char reg, unsigned char *buffer, int 
         }
         else
         {
-          sprintf(message, "read %02x%02x%02x%02x%02x%02x", buffer[0], buffer[1], buffer[2], buffer[3], buffer[4], buffer[5]);
+          sprintf(message, "read 0x");
+          for( i = 0; i <nbytes; i++ )
+          {
+            sprintf( hex, "%02X", buffer[ i ] );
+            strncat( message, hex, 2 );
+          }
           syslog(LOG_DEBUG, "%s", message);
         }
       }

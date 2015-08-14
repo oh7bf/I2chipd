@@ -7,7 +7,7 @@
 
 int InitBMP180()
 {
-  unsigned char buffer[20];
+  unsigned char buffer[30];
   char message[200]="";
 
   if( I2cRReadRegBytes(BMP180_ADDRESS, BMP180_AC1, buffer, 22) == 1)

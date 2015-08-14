@@ -43,6 +43,9 @@ int I2cReadBytes(int address, int length)
     return -3;
   }
 
+  sprintf(message, "0x%02X read", address);
+  syslog(LOG_DEBUG, "%s", message);
+
   if( length == 1 )
   {
      if( read(fd, buf,1) != 1 ) 
@@ -54,7 +57,7 @@ int I2cReadBytes(int address, int length)
      }
      else 
      {
-       sprintf(message, "Receive 0x%02x", buf[0]);
+       sprintf(message, "receive 0x%02x", buf[0]);
        syslog(LOG_DEBUG, "%s", message); 
        rdata=buf[0];
      }
@@ -70,7 +73,7 @@ int I2cReadBytes(int address, int length)
      }
      else 
      {
-       sprintf(message, "Receive 0x%02x%02x", buf[0], buf[1]);
+       sprintf(message, "receive 0x%02x%02x", buf[0], buf[1]);
        syslog(LOG_DEBUG, "%s", message);  
        rdata=256*buf[0]+buf[1];
      }
@@ -86,7 +89,7 @@ int I2cReadBytes(int address, int length)
      }
      else 
      {
-        sprintf(message, "Receive 0x%02x%02x%02x%02x", buf[0], buf[1], buf[2], buf[3]);
+        sprintf(message, "receive 0x%02x%02x%02x%02x", buf[0], buf[1], buf[2], buf[3]);
         syslog(LOG_DEBUG, "%s", message);  
         rdata=16777216*buf[0]+65536*buf[1]+256*buf[2]+buf[3];
      }

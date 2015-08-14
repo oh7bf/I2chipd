@@ -7,7 +7,7 @@ int I2cWriteRegister(int address, unsigned char reg, unsigned char value)
   int fd, rd;
   int cnt = 0;
   unsigned char buf[10];
-  char message[200]="";
+  char message[200] = "";
 
   if( (fd = open(i2cdev, O_RDWR) ) < 0 ) 
   {
@@ -40,17 +40,16 @@ int I2cWriteRegister(int address, unsigned char reg, unsigned char value)
     i2cerr = -1;
     return -3;
   }
+
+  sprintf(message, "0x%02X write 0x%02X to register 0x%02X", address, buf[1], buf[0]);
+  syslog(LOG_DEBUG, "%s", message);
+
   if( ( write(fd, buf, 2) ) != 2) 
   {
     syslog(LOG_ERR|LOG_DAEMON, "Error writing to i2c slave");
     close(fd);
     i2cerr = -2;
     return -4;
-  }
-  else
-  {
-    sprintf(message, "wrote %02x to register %02x", value, reg);
-    syslog(LOG_DEBUG, message);
   }
 
   close(fd);

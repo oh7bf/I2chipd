@@ -7,7 +7,8 @@ int I2cReadRegVector(int address, unsigned char reg, short *xval, short *yval, s
 {
   int fd, rd;
   int cnt = 0;
-  unsigned char buf[10];
+  unsigned char buf[ 10 ];
+  char message[ 200 ] = "";
 
   if( ( fd = open(i2cdev, O_RDWR) ) < 0 ) 
   {
@@ -40,6 +41,9 @@ int I2cReadRegVector(int address, unsigned char reg, short *xval, short *yval, s
     return -3;
   }
 
+  sprintf(message, "0x%02X read vector registers from 0x%02X", address, reg);
+  syslog(LOG_DEBUG, "%s", message);
+
   if( write(fd, buf, 1) != 1) 
   {
     syslog(LOG_ERR|LOG_DAEMON, "Error writing to i2c slave");
@@ -64,6 +68,8 @@ int I2cReadRegVector(int address, unsigned char reg, short *xval, short *yval, s
       *yval |= (short)buf[3];
       *zval = ((short)(buf[4]))<<8;
       *zval |= (short)buf[5];
+      sprintf(message, "receive 0x%02X%02X%02X%02X%02X%02X", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
+      syslog(LOG_DEBUG, "%s", message);
     }
   }
   close( fd );
