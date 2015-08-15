@@ -47,7 +47,7 @@ int I2cWriteRegVector(int address, unsigned char reg, short *xval, short *yval, 
     return -3;
   }
 
-  sprintf(message, "0x%02X write register 0x%02X 0x%02X%02X%02X%02X%02X%02X", address, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6]);
+  sprintf(message, "I2C[%02X] write register [%02X] [%02X%02X %02X%02X %02X%02X]", address, buf[0], buf[1], buf[2], buf[3], buf[4], buf[5], buf[6]);
   syslog(LOG_DEBUG, "%s", message);
 
   if( (write(fd, buf, 7)) != 7) 

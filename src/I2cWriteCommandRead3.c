@@ -42,7 +42,7 @@ unsigned int I2cWriteCommandRead3(int address, unsigned char cmd, int delay)
     return UINT_MAX;
   }
 
-  sprintf(message, "0x%02X write command 0x%02X", address, buf[0]);
+  sprintf(message, "I2C[%02X] write command [%02X]", address, buf[0]);
   syslog(LOG_DEBUG, "%s", message);
 
   if( (write(fd, buf, 1)) != 1 ) 
@@ -64,12 +64,11 @@ unsigned int I2cWriteCommandRead3(int address, unsigned char cmd, int delay)
     }
     else 
     {
-      sprintf(message, "read 0x%02x%02x%02x\n", buf[0],buf[1],buf[2]);
-      syslog(LOG_DEBUG, "%s", message);
       D = ((unsigned int)buf[0])<<16;
       D |= ((unsigned int)buf[1])<<8;
       D |= (unsigned int)buf[2];
-      i2cerr = 1;
+      sprintf(message, "I2C received [%02X %02X %02X] (%d)", buf[0],buf[1],buf[2], D);
+      syslog(LOG_DEBUG, "%s", message);
     }
   }
   close( fd );

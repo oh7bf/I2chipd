@@ -41,7 +41,7 @@ int I2cWriteCommand(int address, unsigned char cmd, int delay)
     return -3;
   }
 
-  sprintf(message, "0x%02X write command 0x%02X", address, buf[0]);
+  sprintf(message, "I2C[%02X] write command [%02X]", address, buf[0]);
   syslog(LOG_DEBUG, "%s", message);
 
   if( (write(fd, buf, 1)) != 1 ) 

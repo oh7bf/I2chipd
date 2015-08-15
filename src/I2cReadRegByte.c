@@ -42,7 +42,7 @@ int I2cReadRegByte(int address, unsigned char reg)
     return -3;
   }
 
-  sprintf(message, "%02X read register %02X", address, reg);
+  sprintf(message, "I2C[%02X] read register [%02X]", address, reg);
   syslog(LOG_DEBUG, "%s", message);
 
   if((write(fd, buf, 1)) != 1) 
@@ -65,7 +65,7 @@ int I2cReadRegByte(int address, unsigned char reg)
     {
       value = (int)buf[0]; 
 
-      sprintf(message, "value %02X", buf[0]);
+      sprintf(message, "I2C received [%02X] (%d)", buf[0], value);
       syslog(LOG_DEBUG, "%s", message);
     }
   }

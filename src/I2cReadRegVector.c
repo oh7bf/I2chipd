@@ -41,7 +41,7 @@ int I2cReadRegVector(int address, unsigned char reg, short *xval, short *yval, s
     return -3;
   }
 
-  sprintf(message, "0x%02X read vector registers from 0x%02X", address, reg);
+  sprintf(message, "I2C[%02X] read vector registers from [%02X]", address, reg);
   syslog(LOG_DEBUG, "%s", message);
 
   if( write(fd, buf, 1) != 1) 
@@ -68,7 +68,7 @@ int I2cReadRegVector(int address, unsigned char reg, short *xval, short *yval, s
       *yval |= (short)buf[3];
       *zval = ((short)(buf[4]))<<8;
       *zval |= (short)buf[5];
-      sprintf(message, "receive 0x%02X%02X%02X%02X%02X%02X", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
+      sprintf(message, "I2C receive [%02X%02X %02X%02X %02X%02X]", buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
       syslog(LOG_DEBUG, "%s", message);
     }
   }

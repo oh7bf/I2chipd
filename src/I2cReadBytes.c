@@ -6,11 +6,11 @@
 // global 'i2cerr' is set to negative in case of more serious failure
 int I2cReadBytes(int address, int length)
 {
-  int rdata=0;
-  int fd,rd;
-  int cnt=0;
+  int rdata = 0;
+  int fd, rd;
+  int cnt = 0;
   unsigned char buf[10];
-  char message[200]="";
+  char message[200] = "";
 
   if( (fd = open(i2cdev, O_RDWR) ) < 0 ) 
   {
@@ -18,20 +18,20 @@ int I2cReadBytes(int address, int length)
     return -1;
   }
 
-  rd=flock(fd, LOCK_EX|LOCK_NB);
+  rd = flock(fd, LOCK_EX|LOCK_NB);
 
   cnt = I2LOCK_MAX;
   while( (rd == 1) && (cnt > 0) ) // try again if port locking failed
   {
-    sleep(1);
-    rd=flock(fd, LOCK_EX|LOCK_NB);
+    sleep( 1 );
+    rd = flock(fd, LOCK_EX|LOCK_NB);
     cnt--;
   }
 
   if(rd)
   {
     syslog(LOG_ERR|LOG_DAEMON, "Failed to lock i2c port");
-    close(fd);
+    close( fd );
     return -2;
   }
 
@@ -39,11 +39,11 @@ int I2cReadBytes(int address, int length)
   {
     syslog(LOG_ERR|LOG_DAEMON, "Unable to get bus access to talk to slave");
     i2cerr = -1;
-    close(fd);
+    close( fd );
     return -3;
   }
 
-  sprintf(message, "0x%02X read", address);
+  sprintf(message, "I2C[%02X] read", address);
   syslog(LOG_DEBUG, "%s", message);
 
   if( length == 1 )
@@ -57,9 +57,9 @@ int I2cReadBytes(int address, int length)
      }
      else 
      {
-       sprintf(message, "receive 0x%02x", buf[0]);
+       rdata = buf[0];
+       sprintf(message, "I2C receive [%02X] (%d)", buf[0], rdata);
        syslog(LOG_DEBUG, "%s", message); 
-       rdata=buf[0];
      }
   } 
   else if( length == 2 )
@@ -68,14 +68,14 @@ int I2cReadBytes(int address, int length)
      {
        syslog(LOG_ERR|LOG_DAEMON, "Unable to read from slave");
        i2cerr = -2;
-       close(fd);
+       close( fd );
        return -4;
      }
      else 
      {
-       sprintf(message, "receive 0x%02x%02x", buf[0], buf[1]);
+       rdata = 256*buf[0] + buf[1];
+       sprintf(message, "I2C receive [%02X %02X] (%d)", buf[0], buf[1], rdata);
        syslog(LOG_DEBUG, "%s", message);  
-       rdata=256*buf[0]+buf[1];
      }
   }
   else if( length == 4 )
@@ -89,9 +89,9 @@ int I2cReadBytes(int address, int length)
      }
      else 
      {
-        sprintf(message, "receive 0x%02x%02x%02x%02x", buf[0], buf[1], buf[2], buf[3]);
+        rdata = 16777216*buf[0] + 65536*buf[1] + 256*buf[2] + buf[3];
+        sprintf(message, "I2C receive [%02X %02X %02X %02X] (%d)", buf[0], buf[1], buf[2], buf[3], rdata);
         syslog(LOG_DEBUG, "%s", message);  
-        rdata=16777216*buf[0]+65536*buf[1]+256*buf[2]+buf[3];
      }
   }
 

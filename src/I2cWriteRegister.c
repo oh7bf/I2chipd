@@ -41,7 +41,7 @@ int I2cWriteRegister(int address, unsigned char reg, unsigned char value)
     return -3;
   }
 
-  sprintf(message, "0x%02X write 0x%02X to register 0x%02X", address, buf[1], buf[0]);
+  sprintf(message, "I2C[%02X] write [%02X] to register [%02X]", address, buf[1], buf[0]);
   syslog(LOG_DEBUG, "%s", message);
 
   if( ( write(fd, buf, 2) ) != 2) 
