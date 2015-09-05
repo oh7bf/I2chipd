@@ -5,19 +5,21 @@
 #
 # Installation:
 #
-# a) cd src; make
-# 
-# b) cd doc; ./mki2chipd
-# 
-# c) sudo ./install (this script)
+# a) sudo apt-get install sqlite3; sudo apt-get install libsqlite3-dev; sudo apt-get install libmysqlclient-dev
 #
-# d) sudo raspi-config (to enable I2C) 
-#
-# e) sudo service i2chipd start
+# b) cd src; make
 # 
-# f) tail -f /var/log/daemon.log
+# c) cd doc; ./mki2chipd
+# 
+# d) sudo ./install (this script)
 #
-# g) sudo update-rc.d i2chipd defaults (optional)
+# e) sudo raspi-config (to enable I2C) 
+#
+# f) sudo service i2chipd start
+# 
+# g) tail -f /var/log/daemon.log
+#
+# h) sudo update-rc.d i2chipd defaults (optional)
 # 
 #
 # The directories used and files created by this script:
