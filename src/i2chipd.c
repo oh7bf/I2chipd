@@ -20,7 +20,7 @@
  ****************************************************************************
  *
  * Sat Jul  4 11:36:06 CEST 2015
- * Edit: Sat Aug 15 16:13:17 CEST 2015
+ * Edit: Wed 11 Oct 20:08:24 EDT 2017
  *
  * Jaakko Koivuniemi
  **/
@@ -52,7 +52,7 @@
 #include "ReadMySQLTime.h"
 #include "ReadSQLiteTime.h"
 
-const int version=20150815; // program version
+const int version=20171011; // program version
 const char *i2cdev="/dev/i2c-1";
 int i2cerr=0; // error flag for i2c communication 
 const char *confile="/etc/i2chipd_config";
@@ -177,7 +177,7 @@ int main()
     exit(EXIT_FAILURE);
   }
 
-  if(flock(fileno(pidf),LOCK_EX||LOCK_NB)==-1)
+  if(flock(fileno(pidf),LOCK_EX|LOCK_NB)==-1)
   {
     sprintf(message,"Could not lock PID lock file %s, exiting", pidfile);
     syslog(LOG_ERR|LOG_DAEMON, "%s", message);
