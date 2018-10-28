@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# Installation script for Rasbian Wheezy. The installation script can be
+# Installation script for Rasbian. The installation script can be
 # run after compiling the binaries.
 #
 # Installation:
 #
-# a) sudo apt-get install sqlite3; sudo apt-get install libsqlite3-dev; sudo apt-get install libmysqlclient-dev
+# a) sudo apt-get install sqlite3; sudo apt-get install libsqlite3-dev; sudo apt-get install default-libmysqlclient-dev
 #
 # b) cd src; make
 # 
@@ -27,11 +27,11 @@
 # /etc/init.d/i2chipd                - init script
 # /etc/i2chipd_config                - configuration file
 # /usr/share/man/man1/i2chipd.1      - manual page
-# /usr/sbin/i2chipd                  - pressure reading daemon
-# /var/lib/i2chipd/                  - live pressure data
+# /usr/sbin/i2chipd                  - chip reading daemon
+# /var/lib/i2chipd/                  - live physical data
 #
 # Fri Jun 12 23:33:59 CEST 2015
-# Edit: 
+# Edit: Sun Oct 28 15:55:41 CDT 2018
 # 
 # Jaakko Koivuniemi
 #
@@ -108,4 +108,12 @@ else
   /bin/mkdir -m 775 /var/lib/i2chipd
 fi
 
-echo "Run 'update-rc.d i2chipd defaults' to automatically start at boot time"
+if [ ! -r /var/lib/i2chipd/i2chipd.db ]; then
+  echo "Create database with empty tables /var/lib/i2chipd/i2chipd.db"
+  /usr/bin/sqlite3 /var/lib/i2chipd/i2chipd.db < table/sqlite-init
+else
+  echo "Database /var/lib/i2chipd/i2chipd.db already exists"
+fi
+
+echo "Run 'systemctl enable i2chipd' to automatically start at boot time"
+

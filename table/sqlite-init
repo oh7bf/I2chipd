@@ -1,0 +1,43 @@
+create table bmp180(
+no integer primary key,
+ts timestamp default current_timestamp,
+name varchar(20),
+temperature real,
+pressure real,
+altitude real
+);
+
+create table htu21d(
+no integer primary key,
+ts timestamp default current_timestamp,
+name varchar(20),
+temperature real,
+humidity real
+);
+
+create table mag3110(
+no integer primary key,
+ts timestamp default current_timestamp,
+name varchar(20),
+Bx real,
+By real,
+Bz real,
+temperature real
+);
+
+create table mpl3115a2(
+no integer primary key,
+ts timestamp default current_timestamp,
+name varchar(20),
+temperature real,
+pressure real,
+altitude real
+);
+
+create table tmp102(
+no integer primary key,
+ts timestamp default current_timestamp,
+name varchar(20),
+temperature real
+);
+

@@ -1,0 +1,49 @@
+
+create database i2chipd;
+
+use i2chipd;
+
+create table bmp180(
+no int(7) auto_increment key,
+ts timestamp default current_timestamp on update current_timestamp,
+name varchar(20),
+temperature float,
+pressure float,
+altitude float
+);
+
+create table htu21d(
+no int(7) auto_increment key,
+ts timestamp default current_timestamp on update current_timestamp,
+name varchar(20),
+temperature float,
+humidity float
+);
+
+create table mag3110(
+no int(7) auto_increment key,
+ts timestamp default current_timestamp on update current_timestamp,
+name varchar(20),
+Bfx float,
+Bfy float,
+Bfz float,
+temperature float
+);
+
+create table mpl3115a2(
+no int(7) auto_increment key,
+ts timestamp default current_timestamp on update current_timestamp,
+name varchar(20),
+temperature float,
+pressure float,
+altitude float
+);
+
+create table tmp102(
+no int(7) auto_increment key,
+ts timestamp default current_timestamp on update current_timestamp,
+name varchar(20),
+temperature float
+);
+
+

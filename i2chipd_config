@@ -11,7 +11,7 @@
 LOGLEVEL 5
 
 # store data to local SQLite database
-# DBSQLITE /tmp/test.db
+DBSQLITE /var/lib/i2chipd/i2chipd.db
 
 # store data to MySQL database
 # DBMYSQLHOST localhost
