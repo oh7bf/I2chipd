@@ -29,7 +29,7 @@ void ReadTmp102_3()
     sprintf(message, "TMP102_3 T=%+6.2f C", temperature);
     syslog(LOG_INFO|LOG_DAEMON, "%s", message);
 
-    WriteFile( tdatafile, temp);
+    WriteFile( tdatafile, temperature);
 
     data[0] = (float)temperature;
     if( dbsqlite == 1 ) InsertSQLite( dbfile, query, "T3", 1, data);
